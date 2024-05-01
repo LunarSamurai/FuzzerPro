@@ -137,37 +137,37 @@ def generate_wordlist(target):
 
 def loop(ip_address, wordlist_file):
     setup_dirbuster()
-    dirbuster_path = os.path.abspath('./DirBuster-1.0-RC1/dirbuster.sh')
+    dirbuster_path = os.path.abspath('./DirBuster-1.0-RC1/')
     logger.info(f"Scanning target '{ip_address}' with DirBuster...")
 
     # Run DirBuster
     dirbuster_command = [dirbuster_path, '-H', '-u', f'http://{ip_address}', '-l', wordlist_file, '-t', '50', '-e', 'php,html']
     subprocess.run(dirbuster_command)
 
-    # Process DirBuster results
-    with open(wordlist_file, 'r') as file:
-        for line in file:
-            directory = line.strip()
-            if os.path.exists(f"DirBuster-1.0-RC1/{directory}/dir-index.html"):
-                url = f"http://{ip_address}/{directory}"
-                try:
-                    inputs = find_input_fields(url)
-                    for input_field in inputs:
-                        input_details = {
-                            "url": url,
-                            "data": f"{input_field['name']}=test"
-                        }
-                        result = send_to_sqlmap(input_details)
-                        if 'success' in result:
-                            logger.info(f"SQL injection successful on {url}")
-                            logger.info("Command executed by SQLMap:")
-                            logger.info(result['command'])
-                        else:
-                            logger.info(f"SQL injection unsuccessful on {url}")
-                except requests.exceptions.JSONDecodeError:
-                    logger.error("Response is not valid JSON.")
-            else:
-                logger.info(f"No valid directories found for '{directory}'.")
+#    # Process DirBuster results
+#    with open(wordlist_file, 'r') as file:
+#        for line in file:
+#            directory = line.strip()
+#            if os.path.exists(f"DirBuster-1.0-RC1/{directory}/dir-index.html"):
+#                url = f"http://{ip_address}/{directory}"
+#                try:
+#                    inputs = find_input_fields(url)
+#                    for input_field in inputs:
+#                        input_details = {
+#                            "url": url,
+#                            "data": f"{input_field['name']}=test"
+#                        }
+#                        result = send_to_sqlmap(input_details)
+#                        if 'success' in result:
+#                            logger.info(f"SQL injection successful on {url}")
+#                            logger.info("Command executed by SQLMap:")
+#                            logger.info(result['command'])
+#                        else:
+#                            logger.info(f"SQL injection unsuccessful on {url}")
+#                except requests.exceptions.JSONDecodeError:
+#                    logger.error("Response is not valid JSON.")
+#            else:
+#                logger.info(f"No valid directories found for '{directory}'.")
 
 def main():
     parser = argparse.ArgumentParser(description='OWASP Fuzzer Pro - A tool for web application security testing.')
