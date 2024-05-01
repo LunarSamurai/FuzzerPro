@@ -71,11 +71,11 @@ def setup_cewl():
 
 def setup_dirbuster():
     os_detected = platform.system()
-    if not os.path.exists('./DirBuster-1.0-RC1'):
+    if 'dirbuster' not in subprocess.getoutput('dirbuster'):
         logger.info("DirBuster not found, downloading and installing...")
         dirbuster_zip_url = 'https://sourceforge.net/projects/dirbuster/files/DirBuster%20%28jar%20%2B%20source%29/1.0-RC1/DirBuster-1.0-RC1.zip/download'
-        subprocess.run(['wget', dirbuster_zip_url, '-O', 'DirBuster.zip'], check=True)
-        subprocess.run(['unzip', 'DirBuster.zip'], check=True)
+        subprocess.run(['wget', dirbuster_zip_url], check=True)
+        subprocess.run(['unzip', 'download'], check=True)
         if os_detected != "Windows":
             os.environ['PATH'] += os.pathsep + os.path.abspath('./DirBuster-1.0-RC1')
         logger.info("DirBuster downloaded and installed.")
@@ -136,7 +136,6 @@ def generate_wordlist(target):
 
 def loop(ip_address, wordlist_file):
     setup_dirbuster()
-
     dirbuster_path = os.path.abspath('./DirBuster-1.0-RC1/dirbuster.sh')
 
     with open(wordlist_file, 'r') as file:
