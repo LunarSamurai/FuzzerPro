@@ -138,15 +138,16 @@ def generate_wordlist(target):
 def loop(ip_address, wordlist_file):
     setup_dirbuster()
     dirbuster_path = os.path.abspath('./DirBuster-1.0-RC1/dirbuster.sh')
+    logger.info(f"Scanning target '{ip_address}' with DirBuster...")
 
+    # Run DirBuster
+    dirbuster_command = [dirbuster_path, '-H', '-u', f'http://{ip_address}', '-l', wordlist_file, '-t', '50', '-e', 'php,html']
+    subprocess.run(dirbuster_command)
+
+    # Process DirBuster results
     with open(wordlist_file, 'r') as file:
-        for word in file:
-            directory = word.strip()
-            logger.info(f"Scanning directory '{directory}' with DirBuster...")
-            dirbuster_command = [dirbuster_path, '-H', '-u', f'http://{ip_address}/{directory}', '-l', wordlist_file, '-t', '50', '-e', 'php,html']
-            subprocess.run(dirbuster_command)
-
-            # Check if DirBuster found any valid directories
+        for line in file:
+            directory = line.strip()
             if os.path.exists(f"DirBuster-1.0-RC1/{directory}/dir-index.html"):
                 url = f"http://{ip_address}/{directory}"
                 try:
@@ -167,8 +168,6 @@ def loop(ip_address, wordlist_file):
                     logger.error("Response is not valid JSON.")
             else:
                 logger.info(f"No valid directories found for '{directory}'.")
-
-
 
 def main():
     parser = argparse.ArgumentParser(description='OWASP Fuzzer Pro - A tool for web application security testing.')
