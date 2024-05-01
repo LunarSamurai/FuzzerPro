@@ -1,0 +1,6 @@
+2024-05-01 13:01:21.383 | INFO     | __main__:setup_sqlmap:32 - SQLMap is already set up.
+2024-05-01 13:01:21.410 | INFO     | __main__:setup_cewl:69 - CEWL is already set up.
+2024-05-01 13:01:31.404 | INFO     | __main__:setup_cewl:69 - CEWL is already set up.
+2024-05-01 13:01:31.414 | ERROR    | __main__:generate_wordlist:101 - Failed to generate wordlist. Please check that CEWL is correctly installed and configured.
+2024-05-01 13:26:03.651 | INFO     | __main__:setup_cewl:69 - CEWL is already set up.
+2024-05-01 13:26:03.659 | ERROR    | __main__:generate_wordlist:101 - Failed to generate wordlist. Please check that CEWL is correctly installed and configured.
