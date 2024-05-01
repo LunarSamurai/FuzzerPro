@@ -143,7 +143,7 @@ def loop(ip_address, wordlist_file):
         for word in file:
             directory = word.strip()
             logger.info(f"Scanning directory '{directory}' with DirBuster...")
-            dirbuster_command = [dirbuster_path, '-H', '-u', f'http://{ip_address}/{directory}', '-l', 'wordlists/directory-list-2.3-medium.txt', '-t', '50', '-e', 'php,html']
+            dirbuster_command = [dirbuster_path, '-H', '-u', f'http://{ip_address}/{directory}', '-l', wordlist_file, '-t', '50', '-e', 'php,html']
             subprocess.run(dirbuster_command)
 
             # Check if DirBuster found any valid directories
@@ -170,51 +170,6 @@ def loop(ip_address, wordlist_file):
 
 
 
-def print_banner():
-    print("""
-####### #     #    #     #####  ######     ####### #     # ####### ####### ####### ######
-#     # #  #  #   # #   #     # #     #    #       #     #      #       #  #       #     #
-#     # #  #  #  #   #  #       #     #    #       #     #     #       #   #       #     #
-#     # #  #  # #     #  #####  ######     #####   #     #    #       #    #####   ######
-#     # #  #  # #######       # #          #       #     #   #       #     #       #   #
-#     # #  #  # #     # #     # #          #       #     #  #       #      #       #    #
-#######  ## ##  #     #  #####  #          #        #####  ####### ####### ####### #     #
-
-######  ######  #######
-#     # #     # #     #
-#     # #     # #     #
-######  ######  #     #
-#       #   #   #     #
-#       #    #  #     #
-#       #     # #######
-
-     |----------------------------|
-     | OWASP Fuzzer Pro           |
-     |----------------------------|
-     | OWASP Fuzzing Tool         |
-     | Designed by Joseph Craig   |
-     |----------------------------|
-
-
-                                /\\
-                               /XX\\
-                              /XXXX\\
-                             /XXXXXX\\_/\\/\\/\\/\\/\\/\\
-                             |XXXXXXXXXXX|           /\\
-                             \\XXXXXXXXXXX\\          /XX\\
-                               \\XXXXX XXXXXXXXXXXXX XXX\\
-                                 \\XXXXXXXXXXXXXXXXXXXX\\
-                                  |XXXXXXXXXXXXXXXXXXXX|
-                                  \\XXXXXXXXXXXXXXXXXXXX/
-                           ________\\XXXXXXXXXXXXXXXXXXX/________
-                           \\XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/
-                            \\XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/
-                              ""VXXXXXXXXXXXXXXXXXXXXXV""
-                                  ""XXXXXXXXXXXXXV""
-                                     ""VXXXXXXXV""
-                                        ""VVV""
-""")
-
 def main():
     parser = argparse.ArgumentParser(description='OWASP Fuzzer Pro - A tool for web application security testing.')
     parser.add_argument('-s', help='IP address or website URL of the server to test')
@@ -236,6 +191,5 @@ def main():
         loop(args.s, args.wordlistFileName)
 
 if __name__ == "__main__":
-    print_banner()
+    ##print_banner()##
     main()
-
