@@ -142,8 +142,8 @@ def loop(ip_address, wordlist_file):
         for word in file:
             directory = word.strip()
             logger.info(f"Scanning directory '{directory}' with DirBuster...")
-            dirbuster_command = f"{dirbuster_path} -u http://{ip_address}/{directory} -l wordlists/directory-list-2.3-medium.txt -t 50 -e php,html"
-            subprocess.run(dirbuster_command, shell=True)
+            dirbuster_command = [dirbuster_path, '-H', '-u', f'http://{ip_address}/{directory}', '-l', 'wordlists/directory-list-2.3-medium.txt', '-t', '50', '-e', 'php,html']
+            subprocess.run(dirbuster_command)
 
             # Check if DirBuster found any valid directories
             if os.path.exists(f"DirBuster-1.0-RC1/{directory}/dir-index.html"):
@@ -166,6 +166,7 @@ def loop(ip_address, wordlist_file):
                     logger.error("Response is not valid JSON.")
             else:
                 logger.info(f"No valid directories found for '{directory}'.")
+
 
 
 def print_banner():
