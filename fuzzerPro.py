@@ -14,11 +14,13 @@ import tarfile
 # Configure logging
 logger.add("app.log", rotation="500 MB", level="INFO")
 
+
 def download_file(url, save_path):
     response = requests.get(url)
     with open(save_path, 'wb') as f:
         f.write(response.content)
     logger.info(f"Downloaded file from {url} to {save_path}")
+
 
 def setup_sqlmap():
     if not os.path.exists('sqlmap/sqlmap.py'):
@@ -32,6 +34,7 @@ def setup_sqlmap():
         os.unlink('sqlmap.zip')
     logger.info("SQLMap is already set up.")
     sys.path.append(os.path.abspath('./sqlmap'))
+
 
 def install_ruby_windows():
     logger.info("Checking for Ruby installation...")
@@ -51,6 +54,7 @@ def install_ruby_windows():
         logger.info("Ruby installed successfully.")
         os.unlink(installer_path)
 
+
 def setup_cewl():
     os_detected = platform.system()
     if 'cewl' not in subprocess.getoutput('cewl -h'):
@@ -69,19 +73,23 @@ def setup_cewl():
         logger.info("CEWL downloaded and installed.")
     logger.info("CEWL is already set up.")
 
+
 def setup_dirbuster():
     os_detected = platform.system()
+    dirbuster_dir = None
     try:
         subprocess.run(['dirbuster', '-h'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         logger.info("DirBuster is already installed.")
+        dirbuster_dir = 'dirbuster'  # Assuming it's in the PATH
     except subprocess.CalledProcessError:
         logger.info("DirBuster not found, downloading and installing...")
         dirbuster_zip_url = 'https://sourceforge.net/projects/dirbuster/files/DirBuster%20%28jar%20%2B%20source%29/1.0-RC1/DirBuster-1.0-RC1.tar.bz2/download'
         subprocess.run(['wget', dirbuster_zip_url], check=True)
         subprocess.run(['tar', '-xf', 'download'], check=True)
-        if os_detected != "Windows":
-            os.environ['PATH'] += os.pathsep + os.path.abspath('./DirBuster-1.0-RC1')
+        dirbuster_dir = os.path.abspath('./DirBuster-1.0-RC1')
         logger.info("DirBuster downloaded and installed.")
+    return dirbuster_dir
+
 
 def install_tools():
     setup_sqlmap()
@@ -103,10 +111,12 @@ def install_tools():
         subprocess.run([sys.executable, '-m', 'pip', 'install', 'beautifulsoup4'], check=True)
         logger.info("BeautifulSoup installed.")
 
+
 def find_input_fields(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     return soup.find_all('input')
+
 
 def send_to_sqlmap(input_details):
     sqlmap_server = 'http://localhost:8775'
@@ -123,6 +133,7 @@ def send_to_sqlmap(input_details):
     response = requests.post(start_url, json=data, headers=headers)
     return response.json()
 
+
 def generate_wordlist(target):
     timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     wordlist_filename = f"wordlist_{timestamp}.txt"
@@ -136,13 +147,17 @@ def generate_wordlist(target):
 
 
 def loop(ip_address, wordlist_file):
-    setup_dirbuster()
-    dirbuster_path = os.path.abspath('./DirBuster-1.0-RC1/')
+    dirbuster_path = setup_dirbuster()
+    if dirbuster_path is None:
+        logger.error("Failed to set up DirBuster. Exiting.")
+        return
+
     logger.info(f"Scanning target '{ip_address}' with DirBuster...")
 
     # Run DirBuster
-    dirbuster_command = [dirbuster_path, '-H', '-u', f'http://{ip_address}', '-l', wordlist_file, '-t', '50', '-e', 'php,html']
+    dirbuster_command = [os.path.join(dirbuster_path, 'dirbuster.sh'), '-H', '-u', f'http://{ip_address}', '-l', wordlist_file, '-t', '50', '-e', 'php,html']
     subprocess.run(dirbuster_command)
+
 
 #    # Process DirBuster results
 #    with open(wordlist_file, 'r') as file:
@@ -188,6 +203,7 @@ def main():
     elif args.s and args.wordlistFileName:
         setup_sqlmap()
         loop(args.s, args.wordlistFileName)
+
 
 if __name__ == "__main__":
     ##print_banner()##
