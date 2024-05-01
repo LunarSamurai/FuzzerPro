@@ -1,19 +1,201 @@
-import requests
 import sys
+import os
+import argparse
+import subprocess
+import requests
+import zipfile
+import io
+import datetime
+import platform
+from bs4 import BeautifulSoup
 
-def loop():
-    for word in sys.stdin:
-        res = requests.get(url=f"http://10.10.73.89/{word.strip()}")  # Strip whitespace from the word
-        if res.status_code == 404:
-            print(f"Word '{word.strip()}' not found.")
-        elif res.status_code == 200:
-            try:
-                data = res.json()
-                print(data)
-            except requests.exceptions.JSONDecodeError:
-                print("Response is not valid JSON.")
-        else:
-            print(f"Unexpected status code: {res.status_code}")
+
+def download_file(url, save_path):
+    response = requests.get(url)
+    with open(save_path, 'wb') as f:
+        f.write(response.content)
+
+
+def setup_sqlmap():
+    if not os.path.exists('sqlmap/sqlmap.py'):
+        print("SQLMap not found, downloading...")
+        sqlmap_zip_url = 'https://github.com/sqlmapproject/sqlmap/archive/refs/heads/master.zip'
+        download_file(sqlmap_zip_url, 'sqlmap.zip')
+        with zipfile.ZipFile('sqlmap.zip', 'r') as zip_ref:
+            zip_ref.extractall()
+        os.rename('sqlmap-master', 'sqlmap')
+        print("SQLMap downloaded and extracted.")
+        os.unlink('sqlmap.zip')
+    print("SQLMap is already set up.")
+    sys.path.append(os.path.abspath('./sqlmap'))
+
+
+def install_ruby_windows():
+    print("Checking for Ruby installation...")
+    try:
+        ruby_version = subprocess.run(['ruby', '--version'], check=True, capture_output=True, text=True)
+        print(f"Ruby is already installed: {ruby_version.stdout.split()[1]}")
+    except subprocess.CalledProcessError:
+        print("Ruby not found, installing...")
+        # Download Ruby Installer
+        ruby_installer_url = 'https://github.com/oneclick/rubyinstaller2/releases/latest/download/rubyinstaller-3.1.2-1-x64.exe'
+        installer_path = 'rubyinstaller.exe'
+        download_file(ruby_installer_url, installer_path)
+
+        # Run the installer
+        print("Running Ruby installer, please follow the prompts if any...")
+        subprocess.run([installer_path, '/verysilent', '/dir="C:\\Ruby31-x64"'], check=True)
+        print("Ruby installed successfully.")
+        os.unlink(installer_path)
+
+
+def setup_cewl():
+    os_detected = platform.system()
+    if 'cewl' not in subprocess.getoutput('cewl -h'):
+        print("CEWL not found, downloading and installing...")
+        cewl_git_url = 'https://github.com/digininja/CeWL.git'
+        subprocess.check_call(['git', 'clone', cewl_git_url, 'CeWL'])
+        os.chdir('CeWL')
+        if os_detected == "Windows":
+            install_ruby_windows()
+            subprocess.run(['gem', 'install', 'bundler', '--no-document'], check=True)
+            subprocess.run(['bundle', 'install'], check=True)
+        os.chdir('..')
+        print("CEWL downloaded and installed.")
+        if os_detected != "Windows":
+            os.environ['PATH'] += os.pathsep + os.path.abspath('./CeWL')
+        print("CEWL downloaded and installed.")
+    print("CEWL is already set up.")
+
+
+def install_tools():
+    setup_sqlmap()
+    setup_cewl()
+
+
+def find_input_fields(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    return soup.find_all('input')
+
+
+def send_to_sqlmap(input_details):
+    sqlmap_server = 'http://localhost:8775'
+    task_new = f'{sqlmap_server}/task/new'
+    task_id = requests.get(task_new).json()['taskid']
+    start_url = f'{sqlmap_server}/scan/{task_id}/start'
+    headers = {'Content-Type': 'application/json'}
+
+    data = {
+        "url": input_details['url'],
+        "data": input_details.get('data', '')
+    }
+
+    response = requests.post(start_url, json=data, headers=headers)
+    return response.json()
+
+
+def generate_wordlist(target):
+    timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    wordlist_filename = f"wordlist_{timestamp}.txt"
+    cewl_command = f"cewl {target} -w {wordlist_filename}"
+    result = subprocess.run(cewl_command, shell=True)
+    if result.returncode != 0:
+        print("Failed to generate wordlist. Please check that CEWL is correctly installed and configured.")
+        return None
+    print(f"Generated wordlist saved as: {wordlist_filename}")
+    return wordlist_filename
+
+
+def loop(ip_address, wordlist_file):
+    with open(wordlist_file, 'r') as file:
+        for word in file:
+            url = f"http://{ip_address}/{word.strip()}"
+            res = requests.get(url=url)
+            if res.status_code == 404:
+                print(f"Word '{word.strip()}' not found.")
+            elif res.status_code == 200:
+                try:
+                    inputs = find_input_fields(url)
+                    for input_field in inputs:
+                        input_details = {
+                            "url": url,
+                            "data": f"{input_field['name']}=test"
+                        }
+                        result = send_to_sqlmap(input_details)
+                        print(result)
+                except requests.exceptions.JSONDecodeError:
+                    print("Response is not valid JSON.")
+            else:
+                print(f"Unexpected status code: {res.status_code}")
+
+def print_banner():
+    print("""
+####### #     #    #     #####  ######     ####### #     # ####### ####### ####### ######  
+#     # #  #  #   # #   #     # #     #    #       #     #      #       #  #       #     # 
+#     # #  #  #  #   #  #       #     #    #       #     #     #       #   #       #     # 
+#     # #  #  # #     #  #####  ######     #####   #     #    #       #    #####   ######  
+#     # #  #  # #######       # #          #       #     #   #       #     #       #   #   
+#     # #  #  # #     # #     # #          #       #     #  #       #      #       #    #  
+#######  ## ##  #     #  #####  #          #        #####  ####### ####### ####### #     # 
+                                                                                           
+######  ######  ####### 
+#     # #     # #     # 
+#     # #     # #     # 
+######  ######  #     # 
+#       #   #   #     # 
+#       #    #  #     # 
+#       #     # ####### 
+
+     |----------------------------|
+     | OWASP Fuzzer Pro           |
+     |----------------------------|
+     | OWASP Fuzzing Tool         |
+     | Designed by Joseph Craig   |
+     |----------------------------|
+
+
+                                /\\
+                               /XX\\
+                              /XXXX\\
+                             /XXXXXX\\_/\\/\\/\\/\\/\\/\\
+                             |XXXXXXXXXXX|           /\\
+                             \\XXXXXXXXXXX\\          /XX\\
+                               \\XXXXX XXXXXXXXXXXXX XXX\\
+                                 \\XXXXXXXXXXXXXXXXXXXX\\
+                                  |XXXXXXXXXXXXXXXXXXXX|
+                                  \\XXXXXXXXXXXXXXXXXXXX/
+                           ________\\XXXXXXXXXXXXXXXXXXX/________
+                           \\XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/
+                            \\XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/
+                              ""VXXXXXXXXXXXXXXXXXXXXXV""
+                                  ""XXXXXXXXXXXXXV""
+                                     ""VXXXXXXXV""
+                                        ""VVV""
+""")
+
+
+def main():
+    parser = argparse.ArgumentParser(description='OWASP Fuzzer Pro - A tool for web application security testing.')
+    parser.add_argument('-s', help='IP address or website URL of the server to test')
+    parser.add_argument('wordlistFileName', nargs='?', help='Filename of the wordlist to use')
+    parser.add_argument('-c', help='Generate a wordlist using CEWL for the given IP or website', metavar='TARGET')
+    parser.add_argument('-i', '--install', help='Install and setup all necessary tools (SQLMap and CEWL)',
+                        action='store_true')
+
+    args = parser.parse_args()
+
+    if args.install:
+        install_tools()
+    elif args.c:
+        setup_cewl()
+        wordlist_file = generate_wordlist(args.c)
+        loop(args.c, wordlist_file)
+    elif args.s and args.wordlistFileName:
+        setup_sqlmap()
+        loop(args.s, args.wordlistFileName)
+
 
 if __name__ == "__main__":
-    loop()
+    print_banner()
+    main()
