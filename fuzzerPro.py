@@ -70,16 +70,17 @@ def setup_cewl():
     logger.info("CEWL is already set up.")
 
 def setup_dirbuster():
-    logger.info("Checking for DirBuster installation...")
-    if not os.path.exists('DirBuster-1.0-RC1'):
-        logger.info("DirBuster not found, downloading...")
-        dirbuster_zip_url = 'https://sourceforge.net/projects/dirbuster/files/dirbuster/0.12/DirBuster-1.0-RC1.tar.bz2/download'
-        download_file(dirbuster_zip_url, 'DirBuster-1.0-RC1.tar.bz2')
-        with tarfile.open('DirBuster-1.0-RC1.tar.bz2', 'r:bz2') as tar_ref:
-            tar_ref.extractall()
-        logger.info("DirBuster downloaded and extracted.")
-        os.unlink('DirBuster-1.0-RC1.tar.bz2')
-    logger.info("DirBuster is already set up.")
+    os_detected = platform.system()
+    if not os.path.exists('./DirBuster-1.0-RC1'):
+        logger.info("DirBuster not found, downloading and installing...")
+        dirbuster_zip_url = 'https://sourceforge.net/projects/dirbuster/files/DirBuster%20%28jar%20%2B%20source%29/1.0-RC1/DirBuster-1.0-RC1.zip/download'
+        subprocess.run(['wget', dirbuster_zip_url, '-O', 'DirBuster.zip'], check=True)
+        subprocess.run(['unzip', 'DirBuster.zip'], check=True)
+        if os_detected != "Windows":
+            os.environ['PATH'] += os.pathsep + os.path.abspath('./DirBuster-1.0-RC1')
+        logger.info("DirBuster downloaded and installed.")
+    else:
+        logger.info("DirBuster is already set up.")
 
 def install_tools():
     setup_sqlmap()
@@ -135,6 +136,7 @@ def generate_wordlist(target):
 
 def loop(ip_address, wordlist_file):
     setup_dirbuster()
+
     dirbuster_path = os.path.abspath('./DirBuster-1.0-RC1/dirbuster.sh')
 
     with open(wordlist_file, 'r') as file:
