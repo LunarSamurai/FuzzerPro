@@ -9,6 +9,7 @@ import datetime
 import platform
 from bs4 import BeautifulSoup
 from loguru import logger
+import tarfile
 
 # Configure logging
 logger.add("app.log", rotation="500 MB", level="INFO")
@@ -68,9 +69,22 @@ def setup_cewl():
         logger.info("CEWL downloaded and installed.")
     logger.info("CEWL is already set up.")
 
+def setup_dirbuster():
+    logger.info("Checking for DirBuster installation...")
+    if not os.path.exists('DirBuster-1.0-RC1'):
+        logger.info("DirBuster not found, downloading...")
+        dirbuster_zip_url = 'https://sourceforge.net/projects/dirbuster/files/dirbuster/0.12/DirBuster-1.0-RC1.tar.bz2/download'
+        download_file(dirbuster_zip_url, 'DirBuster-1.0-RC1.tar.bz2')
+        with tarfile.open('DirBuster-1.0-RC1.tar.bz2', 'r:bz2') as tar_ref:
+            tar_ref.extractall()
+        logger.info("DirBuster downloaded and extracted.")
+        os.unlink('DirBuster-1.0-RC1.tar.bz2')
+    logger.info("DirBuster is already set up.")
+
 def install_tools():
     setup_sqlmap()
     setup_cewl()
+    setup_dirbuster()
     try:
         from loguru import logger
     except ImportError:
@@ -86,8 +100,6 @@ def install_tools():
     except ImportError:
         subprocess.run([sys.executable, '-m', 'pip', 'install', 'beautifulsoup4'], check=True)
         logger.info("BeautifulSoup installed.")
-
-
 
 def find_input_fields(url):
     response = requests.get(url)
@@ -120,14 +132,21 @@ def generate_wordlist(target):
     logger.info(f"Generated wordlist saved as: {wordlist_filename}")
     return wordlist_filename
 
+
 def loop(ip_address, wordlist_file):
+    setup_dirbuster()
+    dirbuster_path = os.path.abspath('./DirBuster-1.0-RC1/dirbuster.sh')
+
     with open(wordlist_file, 'r') as file:
         for word in file:
-            url = f"http://{ip_address}/{word.strip()}"
-            res = requests.get(url=url)
-            if res.status_code == 404:
-                logger.info(f"Word '{word.strip()}' not found.")
-            elif res.status_code == 200:
+            directory = word.strip()
+            logger.info(f"Scanning directory '{directory}' with DirBuster...")
+            dirbuster_command = f"{dirbuster_path} -u http://{ip_address}/{directory} -l wordlists/directory-list-2.3-medium.txt -t 50 -e php,html"
+            subprocess.run(dirbuster_command, shell=True)
+
+            # Check if DirBuster found any valid directories
+            if os.path.exists(f"DirBuster-1.0-RC1/{directory}/dir-index.html"):
+                url = f"http://{ip_address}/{directory}"
                 try:
                     inputs = find_input_fields(url)
                     for input_field in inputs:
@@ -145,7 +164,8 @@ def loop(ip_address, wordlist_file):
                 except requests.exceptions.JSONDecodeError:
                     logger.error("Response is not valid JSON.")
             else:
-                logger.info(f"Unexpected status code: {res.status_code}")
+                logger.info(f"No valid directories found for '{directory}'.")
+
 
 def print_banner():
     print("""
@@ -215,3 +235,4 @@ def main():
 if __name__ == "__main__":
     print_banner()
     main()
+
