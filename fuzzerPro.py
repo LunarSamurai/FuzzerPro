@@ -71,16 +71,17 @@ def setup_cewl():
 
 def setup_dirbuster():
     os_detected = platform.system()
-    if 'dirbuster' not in subprocess.getoutput('dirbuster -h'):
+    try:
+        subprocess.run(['dirbuster', '-h'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        logger.info("DirBuster is already installed.")
+    except subprocess.CalledProcessError:
         logger.info("DirBuster not found, downloading and installing...")
         dirbuster_zip_url = 'https://sourceforge.net/projects/dirbuster/files/DirBuster%20%28jar%20%2B%20source%29/1.0-RC1/DirBuster-1.0-RC1.tar.bz2/download'
         subprocess.run(['wget', dirbuster_zip_url], check=True)
-        subprocess.run(['unzip', 'download'], check=True)
+        subprocess.run(['tar', '-xf', 'download'], check=True)
         if os_detected != "Windows":
             os.environ['PATH'] += os.pathsep + os.path.abspath('./DirBuster-1.0-RC1')
         logger.info("DirBuster downloaded and installed.")
-    else:
-        logger.info("DirBuster is already set up.")
 
 def install_tools():
     setup_sqlmap()
