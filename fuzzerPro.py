@@ -71,6 +71,23 @@ def setup_cewl():
 def install_tools():
     setup_sqlmap()
     setup_cewl()
+    from loguru import logger
+    try:
+        import requests
+    except ImportError:
+        subprocess.run([sys.executable, '-m', 'pip', 'install', 'requests'], check=True)
+        logger.info("Requests library installed.")
+    try:
+        from bs4 import BeautifulSoup
+    except ImportError:
+        subprocess.run([sys.executable, '-m', 'pip', 'install', 'beautifulsoup4'], check=True)
+        logger.info("BeautifulSoup installed.")
+    try:
+        from loguru import logger
+    except ImportError:
+        subprocess.run([sys.executable, '-m', 'pip', 'install', 'loguru'], check=True)
+        logger.info("Loguru installed.")
+
 
 def find_input_fields(url):
     response = requests.get(url)

@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b2312fc6-6382-4b3c-bfb0-923b4a741abd" name="Changes" comment="-- Joseph Craig &#10;&#10;-- Introduced loguru for Logging&#10;-- Implemented SQL MAP Functionality&#10;// Joseph Craig">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fuzzerPro.py" beforeDir="false" afterPath="$PROJECT_DIR$/fuzzerPro.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +101,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713059072609</updated>
-      <workItem from="1714576906109" duration="5270000" />
+      <workItem from="1714576906109" duration="6246000" />
     </task>
     <task id="LOCAL-00001" summary="-- Joseph Craig &#10;&#10;-- Introduced CEWL Wordlist Generation Integration&#10;-- Introduced SQLMAP Automation Integration&#10;-- Introduced Automation for Installation of Both SQL and CEWL &#10;-- Introduced CLI Arguments for Modularity&#10;-- Dynamic IP/Web Address based on Arguments &#10;-- Introduced flags -i -c -s -h --help&#10;&#10;// Joseph Craig">
       <option name="closed" value="true" />
@@ -118,7 +119,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714582964456</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="-- Joseph Craig &#10;&#10;-- Introduced loguru for Logging&#10;-- Implemented SQL MAP Functionality&#10;// Joseph Craig">
+      <option name="closed" value="true" />
+      <created>1714586855064</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1714586855064</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
