@@ -73,7 +73,7 @@ def setup_dirbuster():
     os_detected = platform.system()
     if 'dirbuster' not in subprocess.getoutput('dirbuster -h'):
         logger.info("DirBuster not found, downloading and installing...")
-        dirbuster_zip_url = 'https://sourceforge.net/projects/dirbuster/files/DirBuster%20%28jar%20%2B%20source%29/1.0-RC1/DirBuster-1.0-RC1.zip/download'
+        dirbuster_zip_url = 'https://sourceforge.net/projects/dirbuster/files/DirBuster%20%28jar%20%2B%20source%29/1.0-RC1/DirBuster-1.0-RC1.tar.bz2/download'
         subprocess.run(['wget', dirbuster_zip_url], check=True)
         subprocess.run(['unzip', 'download'], check=True)
         if os_detected != "Windows":
