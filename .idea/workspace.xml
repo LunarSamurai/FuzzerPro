@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2312fc6-6382-4b3c-bfb0-923b4a741abd" name="Changes" comment="-- Joseph Craig &#10;&#10;-- Introduced loguru for Logging&#10;-- Implemented SQL MAP Functionality&#10;// Joseph Craig">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fuzzerPro.py" beforeDir="false" afterPath="$PROJECT_DIR$/fuzzerPro.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,18 +16,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "LunarSamurai"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;LunarSamurai&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/LunarSamurai/FuzzerPro.git",
-    "accountId": "28b16679-ae57-442a-8dba-ea4516f973dc"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/LunarSamurai/FuzzerPro.git&quot;,
+    &quot;accountId&quot;: &quot;28b16679-ae57-442a-8dba-ea4516f973dc&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -43,7 +43,7 @@
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/josep/Documents/DevProjects/WepAppFuzzer/FuzzerPro",
+    "last_opened_file_path": "/Users/ariresearcher/Documents/FuzzerPro/FuzzerPro",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -102,6 +102,7 @@
       <option name="presentableId" value="Default" />
       <updated>1713059072609</updated>
       <workItem from="1714576906109" duration="11192000" />
+      <workItem from="1714745422599" duration="505000" />
     </task>
     <task id="LOCAL-00001" summary="-- Joseph Craig &#10;&#10;-- Introduced CEWL Wordlist Generation Integration&#10;-- Introduced SQLMAP Automation Integration&#10;-- Introduced Automation for Installation of Both SQL and CEWL &#10;-- Introduced CLI Arguments for Modularity&#10;-- Dynamic IP/Web Address based on Arguments &#10;-- Introduced flags -i -c -s -h --help&#10;&#10;// Joseph Craig">
       <option name="closed" value="true" />

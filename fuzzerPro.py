@@ -145,6 +145,51 @@ def generate_wordlist(target):
     logger.info(f"Generated wordlist saved as: {wordlist_filename}")
     return wordlist_filename
 
+def print_banner():
+    print("""
+####### #     #    #     #####  ######     ####### #     # ####### ####### ####### ######
+#     # #  #  #   # #   #     # #     #    #       #     #      #       #  #       #     #
+#     # #  #  #  #   #  #       #     #    #       #     #     #       #   #       #     #
+#     # #  #  # #     #  #####  ######     #####   #     #    #       #    #####   ######
+#     # #  #  # #######       # #          #       #     #   #       #     #       #   #
+#     # #  #  # #     # #     # #          #       #     #  #       #      #       #    #
+#######  ## ##  #     #  #####  #          #        #####  ####### ####### ####### #     #
+
+######  ######  #######
+#     # #     # #     #
+#     # #     # #     #
+######  ######  #     #
+#       #   #   #     #
+#       #    #  #     #
+#       #     # #######
+
+     |----------------------------|
+     | OWASP Fuzzer Pro           |
+     |----------------------------|
+     | OWASP Fuzzing Tool         |
+     | Designed by Joseph Craig   |
+     |----------------------------|
+
+
+                                /\\
+                               /XX\\
+                              /XXXX\\
+                             /XXXXXX\\_/\\/\\/\\/\\/\\/\\
+                             |XXXXXXXXXXX|           /\\
+                             \\XXXXXXXXXXX\\          /XX\\
+                               \\XXXXX XXXXXXXXXXXXX XXX\\
+                                 \\XXXXXXXXXXXXXXXXXXXX\\
+                                  |XXXXXXXXXXXXXXXXXXXX|
+                                  \\XXXXXXXXXXXXXXXXXXXX/
+                           ________\\XXXXXXXXXXXXXXXXXXX/________
+                           \\XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/
+                            \\XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/
+                              ""VXXXXXXXXXXXXXXXXXXXXXV""
+                                  ""XXXXXXXXXXXXXV""
+                                     ""VXXXXXXXV""
+                                        ""VVV""
+""")
+
 
 def loop(ip_address, wordlist_file):
     dirbuster_path = setup_dirbuster()
@@ -206,5 +251,5 @@ def main():
 
 
 if __name__ == "__main__":
-    ##print_banner()##
+    print_banner()
     main()
