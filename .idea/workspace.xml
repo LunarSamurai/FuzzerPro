@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2312fc6-6382-4b3c-bfb0-923b4a741abd" name="Changes" comment="-- Joseph Craig &#10;&#10;-- Introduced loguru for Logging&#10;-- Implemented SQL MAP Functionality&#10;// Joseph Craig">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="b2312fc6-6382-4b3c-bfb0-923b4a741abd" name="Changes" comment="-- Joseph Craig &#10;&#10;-- Implemented new Functionality&#10;-- Dirbuster saves to a file&#10;-- File is parsed and SQLMap is ran. &#10;// Joseph Craig">
       <change beforePath="$PROJECT_DIR$/fuzzerPro.py" beforeDir="false" afterPath="$PROJECT_DIR$/fuzzerPro.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -105,7 +103,7 @@
       <updated>1713059072609</updated>
       <workItem from="1714576906109" duration="12852000" />
       <workItem from="1714787823741" duration="8071000" />
-      <workItem from="1716414924358" duration="775000" />
+      <workItem from="1716414924358" duration="831000" />
     </task>
     <task id="LOCAL-00001" summary="-- Joseph Craig &#10;&#10;-- Introduced CEWL Wordlist Generation Integration&#10;-- Introduced SQLMAP Automation Integration&#10;-- Introduced Automation for Installation of Both SQL and CEWL &#10;-- Introduced CLI Arguments for Modularity&#10;-- Dynamic IP/Web Address based on Arguments &#10;-- Introduced flags -i -c -s -h --help&#10;&#10;// Joseph Craig">
       <option name="closed" value="true" />
@@ -259,7 +257,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716414939356</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="-- Joseph Craig &#10;&#10;-- Implemented new Functionality&#10;-- Dirbuster saves to a file&#10;-- File is parsed and SQLMap is ran. &#10;// Joseph Craig">
+      <option name="closed" value="true" />
+      <created>1716415708340</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1716415708340</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -279,7 +285,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="-- Joseph Craig &#10;&#10;-- Introduced CEWL Wordlist Generation Integration&#10;-- Introduced SQLMAP Automation Integration&#10;-- Introduced Automation for Installation of Both SQL and CEWL &#10;-- Introduced CLI Arguments for Modularity&#10;-- Dynamic IP/Web Address based on Arguments &#10;-- Introduced flags -i -c -s -h --help&#10;&#10;// Joseph Craig" />
     <MESSAGE value="-- Joseph Craig &#10;&#10;-- Introduced loguru for Logging&#10;-- Implemented SQL MAP Functionality&#10;// Joseph Craig" />
-    <option name="LAST_COMMIT_MESSAGE" value="-- Joseph Craig &#10;&#10;-- Introduced loguru for Logging&#10;-- Implemented SQL MAP Functionality&#10;// Joseph Craig" />
+    <MESSAGE value="-- Joseph Craig &#10;&#10;-- Implemented new Functionality&#10;-- Dirbuster saves to a file&#10;-- File is parsed and SQLMap is ran. &#10;// Joseph Craig" />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Joseph Craig &#10;&#10;-- Implemented new Functionality&#10;-- Dirbuster saves to a file&#10;-- File is parsed and SQLMap is ran. &#10;// Joseph Craig" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/FuzzerPro$fuzzerPro.coverage" NAME="fuzzerPro Coverage Results" MODIFIED="1716414874482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

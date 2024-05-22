@@ -200,6 +200,51 @@ def main():
             urls = parse_dirbuster_results(dirbuster_output)
             run_sqlmap(urls)
 
+def print_banner():
+    print("""
+####### #     #    #     #####  ######     ####### #     # ####### ####### ####### ######
+#     # #  #  #   # #   #     # #     #    #       #     #      #       #  #       #     #
+#     # #  #  #  #   #  #       #     #    #       #     #     #       #   #       #     #
+#     # #  #  # #     #  #####  ######     #####   #     #    #       #    #####   ######
+#     # #  #  # #######       # #          #       #     #   #       #     #       #   #
+#     # #  #  # #     # #     # #          #       #     #  #       #      #       #    #
+#######  ## ##  #     #  #####  #          #        #####  ####### ####### ####### #     #
+
+######  ######  #######
+#     # #     # #     #
+#     # #     # #     #
+######  ######  #     #
+#       #   #   #     #
+#       #    #  #     #
+#       #     # #######
+
+     |----------------------------|
+     | OWASP Fuzzer Pro           |
+     |----------------------------|
+     | OWASP Fuzzing Tool         |
+     | Designed by Joseph Craig   |
+     |----------------------------|
+
+
+                                /\\
+                               /XX\\
+                              /XXXX\\
+                             /XXXXXX\\_/\\/\\/\\/\\/\\/\\
+                             |XXXXXXXXXXX|           /\\
+                             \\XXXXXXXXXXX\\          /XX\\
+                               \\XXXXX XXXXXXXXXXXXX XXX\\
+                                 \\XXXXXXXXXXXXXXXXXXXX\\
+                                  |XXXXXXXXXXXXXXXXXXXX|
+                                  \\XXXXXXXXXXXXXXXXXXXX/
+                           ________\\XXXXXXXXXXXXXXXXXXX/________
+                           \\XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/
+                            \\XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/
+                              ""VXXXXXXXXXXXXXXXXXXXXXV""
+                                  ""XXXXXXXXXXXXXV""
+                                     ""VXXXXXXXV""
+                                        ""VVV""
+""")
+
 if __name__ == "__main__":
-    ##print_banner()##
+    print_banner()
     main()
