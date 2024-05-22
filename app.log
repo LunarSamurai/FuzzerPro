@@ -4,3 +4,5 @@
 2024-05-01 13:01:31.414 | ERROR    | __main__:generate_wordlist:101 - Failed to generate wordlist. Please check that CEWL is correctly installed and configured.
 2024-05-01 13:26:03.651 | INFO     | __main__:setup_cewl:69 - CEWL is already set up.
 2024-05-01 13:26:03.659 | ERROR    | __main__:generate_wordlist:101 - Failed to generate wordlist. Please check that CEWL is correctly installed and configured.
+2024-05-22 17:50:15.015 | INFO     | __main__:setup_cewl:75 - CEWL is already set up.
+2024-05-22 17:50:15.032 | ERROR    | __main__:generate_wordlist:144 - Failed to generate wordlist. Please check that CEWL is correctly installed and configured.
