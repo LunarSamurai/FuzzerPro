@@ -2,16 +2,13 @@ import sys
 import os
 import argparse
 import subprocess
-import tarfile
-from builtins import ImportError
-
 import requests
 import zipfile
-import io
 import datetime
 import platform
 from bs4 import BeautifulSoup
 from loguru import logger
+import tarfile
 
 # Configure logging
 logger.add("app.log", rotation="500 MB", level="INFO")
@@ -43,11 +40,9 @@ def install_ruby_windows():
         logger.info(f"Ruby is already installed: {ruby_version.stdout.split()[1]}")
     except subprocess.CalledProcessError:
         logger.info("Ruby not found, installing...")
-        # Download Ruby Installer
         ruby_installer_url = 'https://github.com/oneclick/rubyinstaller2/releases/latest/download/rubyinstaller-3.1.2-1-x64.exe'
         installer_path = 'rubyinstaller.exe'
         download_file(ruby_installer_url, installer_path)
-        # Run the installer
         logger.info("Running Ruby installer, please follow the prompts if any...")
         subprocess.run([installer_path, '/verysilent', '/dir="C:\\Ruby31-x64"'], check=True)
         logger.info("Ruby installed successfully.")
@@ -139,17 +134,44 @@ def generate_wordlist(target):
     logger.info(f"Generated wordlist saved as: {wordlist_filename}")
     return wordlist_filename
 
-def loop(ip_address, wordlist_file):
+def run_dirbuster(ip_address, wordlist_file):
     dirbuster_path = setup_dirbuster()
     if dirbuster_path is None:
         logger.error("Failed to set up DirBuster. Exiting.")
-        return
+        return None
 
     logger.info(f"Scanning target '{ip_address}' with DirBuster...")
 
-    # Run DirBuster
-    dirbuster_command = [os.path.join(dirbuster_path, 'dirbuster.sh'), '-H', '-u', f'http://{ip_address}', '-l', wordlist_file, '-t', '50', '-e', 'php,html']
-    subprocess.run(dirbuster_command)
+    output_file = f'dirbuster_results_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.txt'
+    dirbuster_command = [
+        os.path.join(dirbuster_path, 'dirbuster.sh'), '-H', '-u', f'http://{ip_address}', '-l', wordlist_file,
+        '-t', '50', '-e', 'php,html', '-o', output_file
+    ]
+    subprocess.run(dirbuster_command, check=True)
+
+    return output_file
+
+def parse_dirbuster_results(file_path):
+    urls = []
+    with open(file_path, 'r') as file:
+        for line in file:
+            if line.startswith('http'):
+                urls.append(line.strip())
+    return urls
+
+def run_sqlmap(urls):
+    for url in urls:
+        logger.info(f"Running SQLMap on {url}")
+        input_details = {
+            "url": url
+        }
+        result = send_to_sqlmap(input_details)
+        if 'success' in result:
+            logger.info(f"SQL injection successful on {url}")
+            logger.info("Command executed by SQLMap:")
+            logger.info(result['command'])
+        else:
+            logger.info(f"SQL injection unsuccessful on {url}")
 
 def main():
     parser = argparse.ArgumentParser(description='OWASP Fuzzer Pro - A tool for web application security testing.')
@@ -167,11 +189,16 @@ def main():
         setup_cewl()
         wordlist_file = generate_wordlist(args.c)
         if wordlist_file:
-            loop(args.c, wordlist_file)
+            dirbuster_output = run_dirbuster(args.c, wordlist_file)
+            if dirbuster_output:
+                urls = parse_dirbuster_results(dirbuster_output)
+                run_sqlmap(urls)
     elif args.s and args.wordlistFileName:
         setup_sqlmap()
-        loop(args.s, args.wordlistFileName)
-
+        dirbuster_output = run_dirbuster(args.s, args.wordlistFileName)
+        if dirbuster_output:
+            urls = parse_dirbuster_results(dirbuster_output)
+            run_sqlmap(urls)
 
 if __name__ == "__main__":
     ##print_banner()##

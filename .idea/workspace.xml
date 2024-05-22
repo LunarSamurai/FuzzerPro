@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2312fc6-6382-4b3c-bfb0-923b4a741abd" name="Changes" comment="-- Joseph Craig &#10;&#10;-- Introduced loguru for Logging&#10;-- Implemented SQL MAP Functionality&#10;// Joseph Craig" />
+    <list default="true" id="b2312fc6-6382-4b3c-bfb0-923b4a741abd" name="Changes" comment="-- Joseph Craig &#10;&#10;-- Introduced loguru for Logging&#10;-- Implemented SQL MAP Functionality&#10;// Joseph Craig">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fuzzerPro.py" beforeDir="false" afterPath="$PROJECT_DIR$/fuzzerPro.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,21 +38,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.fuzzerPro.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/josep/Documents/DevProjects/WepAppFuzzer/FuzzerPro&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.fuzzerPro.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/josep/Documents/DevProjects/WepAppFuzzer/FuzzerPro",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/.venv" />
@@ -100,6 +105,7 @@
       <updated>1713059072609</updated>
       <workItem from="1714576906109" duration="12852000" />
       <workItem from="1714787823741" duration="8071000" />
+      <workItem from="1716414924358" duration="775000" />
     </task>
     <task id="LOCAL-00001" summary="-- Joseph Craig &#10;&#10;-- Introduced CEWL Wordlist Generation Integration&#10;-- Introduced SQLMAP Automation Integration&#10;-- Introduced Automation for Installation of Both SQL and CEWL &#10;-- Introduced CLI Arguments for Modularity&#10;-- Dynamic IP/Web Address based on Arguments &#10;-- Introduced flags -i -c -s -h --help&#10;&#10;// Joseph Craig">
       <option name="closed" value="true" />
@@ -245,7 +251,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714593385584</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="-- Joseph Craig &#10;&#10;-- Introduced loguru for Logging&#10;-- Implemented SQL MAP Functionality&#10;// Joseph Craig">
+      <option name="closed" value="true" />
+      <created>1716414939356</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1716414939356</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
