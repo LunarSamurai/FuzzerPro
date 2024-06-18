@@ -225,7 +225,7 @@ def print_banner():
      | OWASP Fuzzer Pro           |
      |----------------------------|
      | OWASP Fuzzing Tool         |
-     | Designed by Joseph Craig   |
+     | Designed by Joseph Craig 90|
      |----------------------------|
 
 
