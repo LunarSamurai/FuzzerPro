@@ -83,6 +83,29 @@ def setup_dirbuster():
         logger.info("DirBuster downloaded and installed.")
         return dirbuster_dir
 
+def run_dirbuster(ip_address, wordlist_file):
+    dirbuster_path = setup_dirbuster()
+    if dirbuster_path is None:
+        logger.error("Failed to set up DirBuster. Exiting.")
+        return None
+
+    dirbuster_script = os.path.join(dirbuster_path, 'dirbuster.sh')
+    if not os.path.exists(dirbuster_script):
+        logger.error(f"DirBuster script not found at {dirbuster_script}")
+        return None
+
+    logger.info(f"Scanning target '{ip_address}' with DirBuster...")
+
+    output_file = f'dirbuster_results_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.txt'
+    dirbuster_command = [
+        dirbuster_script, '-H', '-u', f'http://{ip_address}', '-l', wordlist_file,
+        '-t', '50', '-e', 'php,html', '-o', output_file
+    ]
+    subprocess.run(dirbuster_command, check=True)
+
+    return output_file
+
+
 def install_tools():
     setup_sqlmap()
     setup_cewl()
@@ -133,23 +156,6 @@ def generate_wordlist(target):
         return None
     logger.info(f"Generated wordlist saved as: {wordlist_filename}")
     return wordlist_filename
-
-def run_dirbuster(ip_address, wordlist_file):
-    dirbuster_path = setup_dirbuster()
-    if dirbuster_path is None:
-        logger.error("Failed to set up DirBuster. Exiting.")
-        return None
-
-    logger.info(f"Scanning target '{ip_address}' with DirBuster...")
-
-    output_file = f'dirbuster_results_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.txt'
-    dirbuster_command = [
-        os.path.join(dirbuster_path, 'dirbuster.sh'), '-H', '-u', f'http://{ip_address}', '-l', wordlist_file,
-        '-t', '50', '-e', 'php,html', '-o', output_file
-    ]
-    subprocess.run(dirbuster_command, check=True)
-
-    return output_file
 
 def parse_dirbuster_results(file_path):
     urls = []
