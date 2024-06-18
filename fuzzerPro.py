@@ -14,10 +14,16 @@ import tarfile
 logger.add("app.log", rotation="500 MB", level="INFO")
 
 def download_file(url, save_path):
-    response = requests.get(url)
-    with open(save_path, 'wb') as f:
-        f.write(response.content)
-    logger.info(f"Downloaded file from {url} to {save_path}")
+    response = requests.get(url, stream=True)
+    if response.status_code == 200:
+        with open(save_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
+        logger.info(f"Downloaded file from {url} to {save_path}")
+    else:
+        logger.error(f"Failed to download file from {url} with status code {response.status_code}")
+        response.raise_for_status()
 
 def setup_sqlmap():
     if not os.path.exists('sqlmap/sqlmap.py'):
@@ -74,7 +80,7 @@ def setup_dirbuster():
         return dirbuster_jar
     else:
         logger.info("DirBuster not found, downloading and installing...")
-        dirbuster_tar_url = 'https://sourceforge.net/projects/dirbuster/files/DirBuster%20%28jar%20%2B%20source%29/1.0-RC1/DirBuster-1.0-RC1.tar.bz2/download'
+        dirbuster_tar_url = 'https://netcologne.dl.sourceforge.net/project/dirbuster/DirBuster%20%28jar%20%2B%20source%29/1.0-RC1/DirBuster-1.0-RC1.tar.bz2'
         download_file(dirbuster_tar_url, 'dirbuster.tar.bz2')
         with tarfile.open('dirbuster.tar.bz2', 'r:bz2') as tar_ref:
             tar_ref.extractall()
@@ -225,7 +231,7 @@ def print_banner():
      | OWASP Fuzzer Pro           |
      |----------------------------|
      | OWASP Fuzzing Tool         |
-     | Designed by Joseph Craig 90|
+     | Designed by Joseph Craig   |
      |----------------------------|
 
 
