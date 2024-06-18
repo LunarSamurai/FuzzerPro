@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2312fc6-6382-4b3c-bfb0-923b4a741abd" name="Changes" comment="-- Joseph Craig &#10;&#10;-- Implemented new Functionality&#10;&#10;// Joseph Craig">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fuzzerPro.py" beforeDir="false" afterPath="$PROJECT_DIR$/fuzzerPro.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -105,7 +104,7 @@
       <workItem from="1714576906109" duration="12852000" />
       <workItem from="1714787823741" duration="8071000" />
       <workItem from="1716414924358" duration="1595000" />
-      <workItem from="1718741265628" duration="940000" />
+      <workItem from="1718741265628" duration="1431000" />
     </task>
     <task id="LOCAL-00001" summary="-- Joseph Craig &#10;&#10;-- Introduced CEWL Wordlist Generation Integration&#10;-- Introduced SQLMAP Automation Integration&#10;-- Introduced Automation for Installation of Both SQL and CEWL &#10;-- Introduced CLI Arguments for Modularity&#10;-- Dynamic IP/Web Address based on Arguments &#10;-- Introduced flags -i -c -s -h --help&#10;&#10;// Joseph Craig">
       <option name="closed" value="true" />
@@ -283,7 +282,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718741331025</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="-- Joseph Craig &#10;&#10;-- Implemented new Functionality&#10;&#10;// Joseph Craig">
+      <option name="closed" value="true" />
+      <created>1718742220362</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1718742220362</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

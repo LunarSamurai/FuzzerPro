@@ -68,43 +68,40 @@ def setup_cewl():
             os.environ['PATH'] += os.pathsep + os.path.abspath('./CeWL')
 
 def setup_dirbuster():
-    try:
-        subprocess.run(['dirbuster', '-h'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    dirbuster_jar = os.path.abspath('./DirBuster-1.0-RC1/DirBuster-1.0-RC1.jar')
+    if os.path.exists(dirbuster_jar):
         logger.info("DirBuster is already installed.")
-        return 'dirbuster'  # Assuming it's in the PATH
-    except subprocess.CalledProcessError:
+        return dirbuster_jar
+    else:
         logger.info("DirBuster not found, downloading and installing...")
         dirbuster_tar_url = 'https://sourceforge.net/projects/dirbuster/files/DirBuster%20%28jar%20%2B%20source%29/1.0-RC1/DirBuster-1.0-RC1.tar.bz2/download'
         download_file(dirbuster_tar_url, 'dirbuster.tar.bz2')
         with tarfile.open('dirbuster.tar.bz2', 'r:bz2') as tar_ref:
             tar_ref.extractall()
-        dirbuster_dir = os.path.abspath('./DirBuster-1.0-RC1')
         os.unlink('dirbuster.tar.bz2')
         logger.info("DirBuster downloaded and installed.")
-        return dirbuster_dir
+        return dirbuster_jar
 
 def run_dirbuster(ip_address, wordlist_file):
-    dirbuster_path = setup_dirbuster()
-    if dirbuster_path is None:
+    dirbuster_jar = setup_dirbuster()
+    if dirbuster_jar is None:
         logger.error("Failed to set up DirBuster. Exiting.")
         return None
 
-    dirbuster_script = os.path.join(dirbuster_path, 'dirbuster.sh')
-    if not os.path.exists(dirbuster_script):
-        logger.error(f"DirBuster script not found at {dirbuster_script}")
+    if not os.path.exists(dirbuster_jar):
+        logger.error(f"DirBuster JAR file not found at {dirbuster_jar}")
         return None
 
     logger.info(f"Scanning target '{ip_address}' with DirBuster...")
 
     output_file = f'dirbuster_results_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.txt'
     dirbuster_command = [
-        dirbuster_script, '-H', '-u', f'http://{ip_address}', '-l', wordlist_file,
+        'java', '-jar', dirbuster_jar, '-H', '-u', f'http://{ip_address}', '-l', wordlist_file,
         '-t', '50', '-e', 'php,html', '-o', output_file
     ]
     subprocess.run(dirbuster_command, check=True)
 
     return output_file
-
 
 def install_tools():
     setup_sqlmap()
