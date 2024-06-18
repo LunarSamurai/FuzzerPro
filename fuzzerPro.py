@@ -80,7 +80,7 @@ def setup_dirbuster():
         return dirbuster_jar
     else:
         logger.info("DirBuster not found, downloading and installing...")
-        dirbuster_tar_url = 'https://netcologne.dl.sourceforge.net/project/dirbuster/DirBuster%20%28jar%20%2B%20source%29/1.0-RC1/DirBuster-1.0-RC1.tar.bz2'
+        dirbuster_tar_url = 'https://sourceforge.net/projects/dirbuster/files/DirBuster%20%28jar%20%2B%20source%29/1.0-RC1/DirBuster-1.0-RC1.tar.bz2/download'
         download_file(dirbuster_tar_url, 'dirbuster.tar.bz2')
         with tarfile.open('dirbuster.tar.bz2', 'r:bz2') as tar_ref:
             tar_ref.extractall()
