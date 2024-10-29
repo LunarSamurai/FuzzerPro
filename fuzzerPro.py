@@ -13,6 +13,29 @@ import tarfile
 # Configure logging
 logger.add("app.log", rotation="500 MB", level="INFO")
 
+# List of required packages and their respective import names
+REQUIRED_PACKAGES = {
+    "requests": "requests",
+    "loguru": "loguru",
+    "beautifulsoup4": "bs4",
+}
+
+def check_and_install(package, import_name=None):
+    """Check if a package is installed and install it if not."""
+    import_name = import_name or package  # Default to package name if import name not provided
+    try:
+        __import__(import_name)
+        logger.info(f"{package} is already installed.")
+    except ImportError:
+        logger.info(f"{package} not found, installing...")
+        subprocess.run([sys.executable, '-m', 'pip', 'install', package], check=True)
+        logger.info(f"{package} installed successfully.")
+
+def install_dependencies():
+    """Ensure all required packages are installed."""
+    for package, import_name in REQUIRED_PACKAGES.items():
+        check_and_install(package, import_name)
+
 def download_file(url, save_path):
     response = requests.get(url, stream=True)
     if response.status_code == 200:
@@ -110,6 +133,7 @@ def run_dirbuster(ip_address, wordlist_file):
     return output_file
 
 def install_tools():
+    install_dependencies()  # Install dependencies first
     setup_sqlmap()
     setup_cewl()
     setup_dirbuster()
