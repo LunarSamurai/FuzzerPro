@@ -97,17 +97,14 @@ def setup_cewl():
             os.environ['PATH'] += os.pathsep + os.path.abspath('./CeWL')
 
 def setup_dirbuster():
-    dirbuster_jar = os.path.abspath('./DirBuster-1.0-RC1/DirBuster-1.0-RC1.jar')
+    dirbuster_jar = os.path.abspath('./DirBuster-1.0-RC1.jar')
     if os.path.exists(dirbuster_jar):
         logger.info("DirBuster is already installed.")
         return dirbuster_jar
     else:
         logger.info("DirBuster not found, downloading and installing...")
-        dirbuster_tar_url = 'https://sourceforge.net/projects/dirbuster/files/DirBuster%20%28jar%20%2B%20source%29/1.0-RC1/DirBuster-1.0-RC1.tar.bz2/download'
-        download_file(dirbuster_tar_url, 'dirbuster.tar.bz2')
-        with tarfile.open('dirbuster.tar.bz2', 'r:bz2') as tar_ref:
-            tar_ref.extractall()
-        os.unlink('dirbuster.tar.bz2')
+        dirbuster_jar_url = 'https://github.com/seifreed/dirbuster/raw/master/DirBuster-1.0-RC1.jar'
+        download_file(dirbuster_jar_url, 'DirBuster-1.0-RC1.jar')
         logger.info("DirBuster downloaded and installed.")
         return dirbuster_jar
 
