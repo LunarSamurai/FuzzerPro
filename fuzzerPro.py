@@ -57,7 +57,7 @@ def install_ruby_windows():
 def setup_cewl():
     os_detected = platform.system()
     try:
-        subprocess.run(['cewl', '-h'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.run(['cewl', '-h'], check=True, capture_output=True)
         logger.info("CEWL is already installed.")
     except subprocess.CalledProcessError:
         logger.info("CEWL not found, downloading and installing...")
@@ -198,7 +198,9 @@ def main():
         setup_cewl()
         wordlist_file = generate_wordlist(args.c)
         if wordlist_file:
-            dirbuster_output = run_dirbuster(args.c, wordlist_file)
+            dirbuster_output = run_dirbuster(args.c,
+
+ wordlist_file)
             if dirbuster_output:
                 urls = parse_dirbuster_results(dirbuster_output)
                 run_sqlmap(urls)
